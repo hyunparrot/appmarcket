@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.NewAppmarcket" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <style name="Theme.CustomItemView" parent="Theme.AppCompat.Light.DarkActionBar">
+<!--         Customize your light theme here. -->
+         <item name="android:windowBackground">@android:color/white</item>
 
-    <style name="Theme.NewAppmarcket" parent="Base.Theme.NewAppmarcket" />
+<item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+<!--        과제 필수사항에 윈도우 액션바 제거후 전체화면 기준이기때문에 설정-->
+
+
+
+</style>
+
 </resources>

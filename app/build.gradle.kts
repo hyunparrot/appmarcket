@@ -2,15 +2,20 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.example.newappmarcket"
     compileSdk = 34
 
+
+    buildFeatures {
+        dataBinding = true
+    }
     defaultConfig {
         applicationId = "com.example.newappmarcket"
-        minSdk = 31
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -59,4 +64,5 @@ android {
 dependencies {
     implementation("com.google.android.gms:play-services-analytics-impl:18.0.4")
     implementation("com.google.android.engage:engage-core:1.3.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }

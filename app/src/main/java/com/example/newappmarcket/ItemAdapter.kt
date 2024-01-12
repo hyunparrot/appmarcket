@@ -1,64 +1,48 @@
-package com.example.newapplemarcket
+package com.example.newappmarcket
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.newappmarcket.Sell
-import com.example.newappmarcket.databinding.ItemRecyclerviewBinding
-import com.example.newappmarcket.databinding.ItemTitleBinding
+import com.example.newappmarcket.databinding.ItemBinding
+import java.text.DecimalFormat
 
-class MyAdapter(val mItems: MutableList<Any>) : RecyclerView.Adapter<ViewHolder>() {
 
-    companion object {
-        private const val VIEW_TYPE_Date = 1
-        private const val VIEW_TYPE_Item = 2
-
-    }
+class ItemAdapter(private val mItems: MutableList<Sell>) : RecyclerView.Adapter<ItemAdapter.Holder>() {
 
     interface ItemClick {
         fun onClick(view: View, position: Int)
     }
 
+
     var itemClick: ItemClick? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            VIEW_TYPE_Date -> {
-                val binding =
-                    ItemTitleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                DateViewHolder(binding)
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
 
-            else -> {
-                val binding =
-                    ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ItemViewHolder(binding)
-            }
-        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when (val item = mItems[position]) {
-            is Sell.Date -> {
-                (holder as DateViewHolder).title.text = "${item.uploadDate}"
-            }
-            is Sell.Item -> {
-                (holder as ItemViewHolder).itemName.text = item.itemName
-                holder.itemName.text = item.itemName
-                holder.price.text = item.price.toString()
-                holder.itemAddress.text = item.itemAddress
-                holder.iconImageView.setImageResource(item.itemImage)
+    override fun onBindViewHolder(holder: Holder, position: Int) {
 
-
-                holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
-                }
-            }
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(it, position)
         }
+
+        holder.sellImage.setImageResource(mItems[position].itemImage)
+        holder.productName.text = mItems[position].itemName
+        holder.productAd.text = mItems[position].itemAddress
+
+
+        val price = mItems[position].price
+        holder.productPrice.text = DecimalFormat("#,###").format(price) + "원"
+
+        if (mItems[position].isLike)
+            holder.ivAdapterLike.setImageResource(R.drawable.heart)
+        else
+            holder.ivAdapterLike.setImageResource(R.drawable.heart)
+
     }
 
     override fun getItemId(position: Int): Long {
@@ -69,60 +53,20 @@ class MyAdapter(val mItems: MutableList<Any>) : RecyclerView.Adapter<ViewHolder>
         return mItems.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (mItems[position]) {
-            is Sell.Date -> {
-                VIEW_TYPE_Date
-            }
-            is Sell.Item -> {
-                VIEW_TYPE_Item
-            }
-
-            else -> { throw IllegalArgumentException("Unhandled view type at position $position")}
-        }
+    inner class Holder(binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val productName = binding.productName
+        val productAd = binding.productAd
+        val sellImage = binding.sellImage
+        val productPrice = binding.productPrice
+        val ivAdapterLike = binding.heart
+        val heartCount = binding.heartCount
+//        val chatCount = binding.chatCount
+//        해결됨.
     }
 
-    inner class DateViewHolder(binding: ItemTitleBinding) : RecyclerView.ViewHolder(binding.root) {
-        val title = binding.tvAgetitle
-    }
-
-    inner class ItemViewHolder(binding: ItemRecyclerviewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        val iconImageView = binding.sellImage
-        val itemAddress = binding.productAd
-        val itemName = binding.productName
-        val price = binding.productPrice
-    }
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//package com.example.newapplemarcket
-//
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.newappmarcket.Sell
-//import com.example.newappmarcket.databinding.ItemRecyclerviewBinding
-//import com.example.newappmarcket.databinding.ItemTitleBinding
-//
-//
-//class MyAdapter(private val mItems: MutableList<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-//
 //    companion object {
 //        private const val VIEW_TYPE_Dates = 1
 //        private const val VIEW_TYPE_Items = 2
