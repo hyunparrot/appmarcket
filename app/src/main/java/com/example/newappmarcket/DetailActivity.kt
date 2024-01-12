@@ -1,6 +1,5 @@
 package com.example.newappmarcket
 
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -10,14 +9,8 @@ import java.text.DecimalFormat
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    private var isLike = false
-
     private val item: Sell? by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(Constants.ITEM_OBJECT, Sell::class.java)
-        } else {
-            intent.getParcelableExtra<Sell>(Constants.ITEM_OBJECT)
-        }
+        intent.getParcelableExtra<Sell>(Constants.ITEM_OBJECT)
     }
 
     private val itemPosition: Int by lazy {
@@ -41,9 +34,7 @@ class DetailActivity : AppCompatActivity() {
         binding.tvAddress.text = item?.itemAddress
         binding.tvItem.text = item?.itemName
         binding.tvItemDetail.text = item?.itemDetail
-        binding.tvItemDetailPrice.text = DecimalFormat("#,###").format(item?.price) + "원"
-
-        isLike = item?.isLike == true
+        binding.tvItemDetailPrice.text = DecimalFormat("###,###원").format(item?.price)
     }
 }
 
